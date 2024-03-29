@@ -148,7 +148,7 @@ def generate_html_report(reportData):
     html_ptr.write("</table>\n")
     
     html_ptr.write("<p><hr><p>\n")
-    html_ptr.write("<p><small> ** Unchanged items are inventory where a preffered license can not be determined since there were no matches found within the default_license_order.py file.<br> ** These skipped items will have blank new inventory item names and selected licenses below.</small></p>\n")
+    html_ptr.write("<p><small> ** Unchanged items are inventory where a prefered license can not be determined since there were no matches found within the default_license_order.py file.<br> ** Items without versions are also unchanged<br> ** These skipped items will have blank new inventory item names and selected licenses below.</small></p>\n")
 
     html_ptr.write("<p><hr><p>\n")
 
