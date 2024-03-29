@@ -96,7 +96,6 @@ def main():
 		reportOptions = reportOptions.replace('""', '"')[1:-1]
 
 	reportOptions = json.loads(reportOptions)
-	reportOptions = verifyOptions(reportOptions) 
 	
 	releaseDetails = common.api.system.release.get_release_details(baseURL, authToken)
 	releaseVersion = releaseDetails["fnci.release.name"].replace(" ", "")
@@ -131,7 +130,7 @@ def main():
 		print("    Collect data for %s" %reportName)
 		reportData = report_data.gather_data_for_report(baseURL, authToken, reportData)
 
-		if "error" in reportData.keys():
+		if "error" in reportData:
 			logger.error("Error collecting report data: %s" %reportData["error"])
 
 			reportFileNameBase = reportName.replace(" ", "_") + "-Creation_Error-" + fileNameTimeStamp
@@ -176,30 +175,6 @@ def main():
 	logger.info("Completed creating %s" %reportName)
 	print("Completed creating %s" %reportName)
 
-
-#----------------------------------------------------------------------# 
-def verifyOptions(reportOptions):
-	'''
-	Expected Options for report:
-		includeChildProjects - True/False
-	'''
-	reportOptions["error"] = []
-	trueOptions = ["true", "t", "yes", "y"]
-	falseOptions = ["false", "f", "no", "n"]
-
-	includeChildProjects = reportOptions["includeChildProjects"]
-
-	if includeChildProjects.lower() in trueOptions:
-		reportOptions["includeChildProjects"] = True
-	elif includeChildProjects.lower() in falseOptions:
-		reportOptions["includeChildProjects"] = False
-	else:
-		reportOptions["error"].append("Invalid option for including child projects: <b>%s</b>.  Valid options are <b>True/False</b>" %includeChildProjects)
-
-	if not reportOptions["error"]:
-		reportOptions.pop('error', None)
-
-	return reportOptions
 
 
 #----------------------------------------------------------------------#    

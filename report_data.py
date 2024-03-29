@@ -28,7 +28,7 @@ def gather_data_for_report(baseURL, authToken, reportData):
     reportOptions = reportData["reportOptions"]
 
     # Parse report options
-    includeChildProjects = reportOptions["includeChildProjects"]  # True/False
+    includeChildProjects = False  # Hardcode since child projects not supported
 
     projectList = common.project_heirarchy.create_project_heirarchy(baseURL, authToken, projectID, includeChildProjects)
     topLevelProjectName = projectList[0]["projectName"]

@@ -110,7 +110,7 @@ def generate_html_report(reportData):
 
     html_ptr.write("<table id='summaryData' class='table table-hover row-border table-sm' style='width:90%'>\n")    
     html_ptr.write("    <colgroup>\n")
-    html_ptr.write("        <col span=\"1\" style=\"width: 25%;\">\n")  # Project Name
+    #html_ptr.write("        <col span=\"1\" style=\"width: 25%;\">\n")  # Project Name
     html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # Total Inventory Count
     html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # Inventory Not Requiring Changes
     html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # Inventory Requiring Changes
@@ -120,7 +120,7 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("       <tr>\n")
-    html_ptr.write("           <th class='text-left'>Project</th>\n") 
+    #html_ptr.write("           <th class='text-left'>Project</th>\n") 
     html_ptr.write("           <th class='text-center'>Total Inventory Count</th>\n")
     html_ptr.write("           <th class='text-center'>Inventory Not Requiring Changes</th>\n")
     html_ptr.write("           <th class='text-center'>Inventory Requiring Changes</th>\n")
@@ -141,7 +141,7 @@ def generate_html_report(reportData):
         numUnchangedInevntory = updateDetails["numUnchangedInevntory"] 
 
         html_ptr.write("       <tr>\n")
-        html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(projectLink, projectName))
+        #html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(projectLink, projectName))
         html_ptr.write("          <td class='text-center'>%s</td>\n" %numInventoryItems)
         html_ptr.write("          <td class='text-center'>%s</td>\n" %numInventoryItemsNotNeededChanges)
         html_ptr.write("          <td class='text-center'>%s</td>\n" %numInventoryChangesNeeded)
@@ -159,7 +159,7 @@ def generate_html_report(reportData):
     html_ptr.write("<table id='inventoryData' class='table table-hover row-border table-sm' style='width:90%'>\n")
 
     html_ptr.write("    <colgroup>\n")
-    html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # Project
+    #html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # Project
     html_ptr.write("        <col span=\"1\" style=\"width: 35%;\">\n")  # New Name
     html_ptr.write("        <col span=\"1\" style=\"width: 15%;\">\n")  # License
     html_ptr.write("        <col span=\"1\" style=\"width: 35%;\">\n")  # Orig Name
@@ -167,10 +167,10 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("       <tr>\n")
-    html_ptr.write("           <th class='text-left'>Project</th>\n") 
-    html_ptr.write("           <th class='text-left'>New Inventory Name</th>\n")
-    html_ptr.write("           <th class='text-left'>Selected License</th>\n")
+    #html_ptr.write("           <th class='text-left'>Project</th>\n") 
     html_ptr.write("           <th class='text-left'>Original Inventory Name</th>\n")
+    html_ptr.write("           <th class='text-left'>Selected License</th>\n")
+    html_ptr.write("           <th class='text-left'>New Inventory Name</th>\n")
     html_ptr.write("       </tr>\n")
     html_ptr.write("    <thead>\n")
 
@@ -183,16 +183,18 @@ def generate_html_report(reportData):
 
         for updatedInventoryItem in updatedInventoryItems:
             html_ptr.write("       <tr>\n")
-            html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(projectLink, projectName))
-            html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(updatedInventoryItem["inventoryLink"], updatedInventoryItem["newInventoryItemName"]))
-            html_ptr.write("          <td class='text-left'>%s</td>\n" %updatedInventoryItem["shortName"])
-            
+            #html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(projectLink, projectName))
             # Hyperlink the orig name if a new was was not created
             if updatedInventoryItem["newInventoryItemName"] == "":
                 html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(updatedInventoryItem["inventoryLink"], updatedInventoryItem["inventoryItemName"]))
-       
             else:
                 html_ptr.write("          <td class='text-left'>%s</td>\n" %updatedInventoryItem["inventoryItemName"])
+
+            html_ptr.write("          <td class='text-left'>%s</td>\n" %updatedInventoryItem["shortName"])
+            html_ptr.write("          <td class='text-left'><a href='%s' target='_blank' > %s</a></td>\n" %(updatedInventoryItem["inventoryLink"], updatedInventoryItem["newInventoryItemName"]))
+
+            
+
 
             html_ptr.write("       </tr>\n")
     html_ptr.write("    <tbody>\n")        
