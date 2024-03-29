@@ -57,15 +57,17 @@ def gather_data_for_report(baseURL, authToken, reportData):
 
         for inventoryItem in inventoryItems:
             inventoryItemName = inventoryItem["name"]
+            inventoryId = inventoryItem["id"]
             componentId = inventoryItem["componentId"]
             componentVersionId = inventoryItem["componentVersionId"]
             selectedLicenseId = str(inventoryItem["selectedLicenseId"])
             auditNotes = inventoryItem["auditNotes"]
 
+            inventoryLink = baseURL + "/codeinsight/FNCI#myprojectdetails/?id=" + str(projectID) + "&tab=projectInventory&pinv=" + str(inventoryId)
+
             # Is there a license selected for this inventory item?
             if selectedLicenseId == "-1":
 
-                inventoryId = inventoryItem["id"]
                 # Create list of possible license IDs
                 possibleLicenseIds = []
                 for possibleLicense in inventoryItem["possibleLicenses"]:
@@ -118,8 +120,6 @@ def gather_data_for_report(baseURL, authToken, reportData):
 
                         if "error" in response:
                             return response
-                        
-                        inventoryLink = baseURL + "/codeinsight/FNCI#myprojectdetails/?id=" + str(projectID) + "&tab=projectInventory&pinv=" + str(inventoryId)
 
                         details = {}
                         details["inventoryId"] = inventoryId
@@ -135,7 +135,7 @@ def gather_data_for_report(baseURL, authToken, reportData):
                 if not match:
                     details = {}
                     details["inventoryId"] = inventoryId
-                    details["inventoryLink"] = ""
+                    details["inventoryLink"] = inventoryLink
                     details["licenseId"] = ""
                     details["shortName"] = ""
                     details["inventoryItemName"] = inventoryItemName
