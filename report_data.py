@@ -53,6 +53,7 @@ def gather_data_for_report(baseURL, authToken, reportData):
         inventoryItems = projectInventoryDetails["inventoryItems"] 
 
         numInventoryItems = len(inventoryItems)
+        unchangedInventory = 0
 
         for inventoryItem in inventoryItems:
             inventoryItemName = inventoryItem["name"]
@@ -71,6 +72,7 @@ def gather_data_for_report(baseURL, authToken, reportData):
                 # See if each license in the default license order is in the possible license list
                 # If yes then change the inventory item to have the license from top to bottom in 
                 # order of preference
+                match = False
                 for licenseID in default_license_order.licenseOrder:
                     if licenseID in possibleLicenseIds:
                         # This is the preferred license so we need the SPDX license ID
@@ -107,22 +109,39 @@ def gather_data_for_report(baseURL, authToken, reportData):
 
                         # if "error" in response:
                         #     return response
+                        inventoryLink = baseURL + "/codeinsight/FNCI#myprojectdetails/?id=" + str(projectID) + "&tab=projectInventory&pinv=" + str(inventoryId)
 
                         details = {}
                         details["inventoryId"] = inventoryId
+                        details["inventoryLink"] = inventoryLink
                         details["licenseId"] = licenseID
                         details["shortName"] = shortName
                         details["inventoryItemName"] = inventoryItemName
                         details["newInventoryItemName"] = newInventoryItemName
                         updatedInventoryItems.append(details)
-
+                        match = True
                         break
+                # There was not a license match found in the list of preferred licenses
+                if not match:
+                    details = {}
+                    details["inventoryId"] = inventoryId
+                    details["inventoryLink"] = ""
+                    details["licenseId"] = ""
+                    details["shortName"] = ""
+                    details["inventoryItemName"] = inventoryItemName
+                    details["newInventoryItemName"] = ""
+                    updatedInventoryItems.append(details)
+                    unchangedInventory +=1
+            
 
         updateDetails[projectName] = {}
         updateDetails[projectName]["projectLink"] = projectLink
         updateDetails[projectName]["projectID"] = projectID
         updateDetails[projectName]["numInventoryItems"] = numInventoryItems
-        updateDetails[projectName]["numUpdatedInventoryItems"] = len(updatedInventoryItems)
+        updateDetails[projectName]["numInventoryItemsNotNeededChanges"] = numInventoryItems - len(updatedInventoryItems)
+        updateDetails[projectName]["numInventoryChangesNeeded"] = len(updatedInventoryItems)
+        updateDetails[projectName]["numChangedInventory"] = len(updatedInventoryItems) - unchangedInventory
+        updateDetails[projectName]["numUnchangedInevntory"] = unchangedInventory
         updateDetails[projectName]["updatedInventoryItems"] = updatedInventoryItems
 
     reportData["updateDetails"] = updateDetails
