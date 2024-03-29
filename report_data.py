@@ -78,6 +78,12 @@ def gather_data_for_report(baseURL, authToken, reportData):
                 # order of preference
                 match = False
                 for licenseID in default_license_order.licenseOrder:
+
+                    if componentVersionId == "N/A":
+                        # There is no version specified so it cannot be processed
+                        match=False
+                        break
+
                     if licenseID in possibleLicenseIds:
                         # This is the preferred license so we need the SPDX license ID
                         # to update the inventory item's name
