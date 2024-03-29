@@ -71,11 +71,7 @@ def generate_html_report(reportData):
         print("Unable to open %s" %cssFile)
 
     # TODO Add to css file
-    html_ptr.write(" .tr-notExactMatch { background-color: #F0F0F0;}\n")
-    html_ptr.write(" .td-nomatch { color: #F80000;}\n")
-    html_ptr.write(" .btn-comparison {  width:250px; background-color: #323E48; color: #FFFFFF;}\n")
-    # To keep the filter button a different color after it was clicked
-    html_ptr.write(".active {  background-color: #89EE46; color: #000000; outline-color: red;}")
+    html_ptr.write(" span.small {  font-size: 4pt;}\n")
 
     
     html_ptr.write("        </style>\n")  
@@ -125,10 +121,9 @@ def generate_html_report(reportData):
     html_ptr.write("           <th class='text-center'>Inventory Not Requiring Changes</th>\n")
     html_ptr.write("           <th class='text-center'>Inventory Requiring Changes</th>\n")
     html_ptr.write("           <th class='text-center'>Inventory Changed</th>\n")
-    html_ptr.write("           <th class='text-center'>Inventory Unchanged</th>\n")
+    html_ptr.write("           <th class='text-center'>Inventory Unchanged  **</th>\n")
     html_ptr.write("       </tr>\n")
     html_ptr.write("    <thead>\n")
-
     html_ptr.write("    <tbody>\n")
 
     for projectName in reportData["updateDetails"]:
@@ -151,6 +146,9 @@ def generate_html_report(reportData):
 
     html_ptr.write("    </tbody>\n")
     html_ptr.write("</table>\n")
+    
+    html_ptr.write("<p><hr><p>\n")
+    html_ptr.write("<p><small> ** Unchanged items are inventory where a preffered license can not be determined since there were no matches found within the default_license_order.py file.<br> ** These skipped items will have blank new inventory item names and selected licenses below.</small></p>\n")
 
     html_ptr.write("<p><hr><p>\n")
 
