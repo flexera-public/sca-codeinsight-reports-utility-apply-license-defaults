@@ -1,6 +1,6 @@
 {
     "reportName" : "Apply License Defaults Utility",
-    "enableProjectPickerValue" : "true",
+    "enableProjectPickerValue" : "false",
     "reportOptions" : {
         "option1" : 
         {
