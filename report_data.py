@@ -57,6 +57,8 @@ def gather_data_for_report(baseURL, authToken, reportData):
 
         for inventoryItem in inventoryItems:
             inventoryItemName = inventoryItem["name"]
+            componentId = inventoryItem["componentId"]
+            componentVersionId = inventoryItem["componentVersionId"]
             selectedLicenseId = str(inventoryItem["selectedLicenseId"])
             auditNotes = inventoryItem["auditNotes"]
 
@@ -97,18 +99,26 @@ def gather_data_for_report(baseURL, authToken, reportData):
                         updateBody =  '''
                             {
                             "name" : "%s",
+
+                            "inventoryType": "COMPONENT",
+                            "component": {
+                                "id": "%s",
+                                "versionId": "%s",
+                                "licenseId": "%s"
+                            },
                             "licenseId" : "%s",
                             "auditorReviewNotes": "%s"
                             }
-                        ''' %(newInventoryItemName, licenseID, auditNotes)
+                        ''' %(newInventoryItemName, componentId, componentVersionId, licenseID, licenseID, auditNotes)
 
                         logger.info("Updating inventory with ID %s")
                         logger.info("    Original Name: %s" %inventoryItemName)
                         logger.info("         New Name: %s" %newInventoryItemName)
-                        #response = common.api.inventory.update_inventory.update_inventory_item_details(inventoryId, updateBody, baseURL, authToken)
+                        response = common.api.inventory.update_inventory.update_inventory_item_details(inventoryId, updateBody, baseURL, authToken)
 
-                        # if "error" in response:
-                        #     return response
+                        if "error" in response:
+                            return response
+                        
                         inventoryLink = baseURL + "/codeinsight/FNCI#myprojectdetails/?id=" + str(projectID) + "&tab=projectInventory&pinv=" + str(inventoryId)
 
                         details = {}
