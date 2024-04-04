@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-04-04
+### Changed
+- Get license details from component/version vs inventory item
+- Update repo name
 
 ## [1.0.0] - 2024-04-01
 ### Added

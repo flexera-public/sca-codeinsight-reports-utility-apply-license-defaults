@@ -1,6 +1,6 @@
-# sca-codeinsight-reports-apply-license-defaults-utility
+# Code Insight Apply License Defaults Utility
 
-The `sca-codeinsight-reports-apply-license-defaults-utility` repository is a project utility that can be installed within the Code Insight custom report framework.
+The `sca-codeinsight-reports-utility-apply-license-defaults` repository is a project utility that can be installed within the Code Insight custom report framework.
 
 The purpose of this utility is to assign licenses to inventory items that do not currently have one selected.   The script will compare possible licenses to a list of licenses defined within [default_license_order.py](default_license_order.py) where the license will be used in the order they are entered into the list.
 
