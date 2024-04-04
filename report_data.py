@@ -10,6 +10,7 @@ File : report_data.py
 import logging
 import common.project_heirarchy
 import common.api.project.get_project_inventory
+import common.api.component.component_version
 import common.api.license.license_lookup
 import common.api.inventory.update_inventory
 import default_license_order
@@ -50,6 +51,12 @@ def gather_data_for_report(baseURL, authToken, reportData):
 
         APIOPTIONS = "&includeFiles=false&skipVulnerabilities=true"
         projectInventoryDetails = common.api.project.get_project_inventory.get_project_inventory_details_with_options(baseURL, projectID, authToken, APIOPTIONS)
+
+        if "error" in projectInventoryDetails:
+                reportData["error"] = projectInventoryDetails["error"]
+                return reportData
+
+
         inventoryItems = projectInventoryDetails["inventoryItems"] 
 
         numInventoryItems = len(inventoryItems)
@@ -68,10 +75,18 @@ def gather_data_for_report(baseURL, authToken, reportData):
             # Is there a license selected for this inventory item?
             if selectedLicenseId == "-1":
 
+                # Get a list of the possible license for the specific version of component
+
+                componentVersionDetails = common.api.component.component_version.get_component_versions_details(baseURL, authToken, componentVersionId)
+
+                if "error" in componentVersionDetails:
+                     reportData["error"] = componentVersionDetails["error"]
+                     return reportData
+                               
                 # Create list of possible license IDs
                 possibleLicenseIds = []
-                for possibleLicense in inventoryItem["possibleLicenses"]:
-                    possibleLicenseIds.append(str(possibleLicense["licenseId"]))
+                for license in componentVersionDetails["licenses"]:
+                    possibleLicenseIds.append(str(license["id"]))
 
                 # See if each license in the default license order is in the possible license list
                 # If yes then change the inventory item to have the license from top to bottom in 
