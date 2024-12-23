@@ -76,12 +76,16 @@ def gather_data_for_report(baseURL, authToken, reportData):
             if selectedLicenseId == "-1":
 
                 # Get a list of the possible license for the specific version of component
+                if componentVersionId != "N/A":
+                    componentVersionDetails = common.api.component.component_version.get_component_versions_details(baseURL, authToken, componentVersionId)
 
-                componentVersionDetails = common.api.component.component_version.get_component_versions_details(baseURL, authToken, componentVersionId)
-
+                if componentVersionId == "N/A":
+                    # There is no version specified so it cannot be processed
+                    match=False
+                    break
                 if "error" in componentVersionDetails:
-                     reportData["error"] = componentVersionDetails["error"]
-                     return reportData
+                    reportData["error"] = componentVersionDetails["error"]
+                    return reportData
                                
                 # Create list of possible license IDs
                 possibleLicenseIds = []
